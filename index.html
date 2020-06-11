@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="./pages/index.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <meta name="description" content="сервис Mesto: интерактивная страница, куда можно добавлять фотографии, удалять их и ставить лайки.">
+  <meta name="description"
+    content="сервис Mesto: интерактивная страница, куда можно добавлять фотографии, удалять их и ставить лайки.">
   <meta name="keywords" content="Яндекс.Практикум, mesto, место, фото, сеть">
   <meta name="author" content="Max Power">
 </head>
+
 <body bgcolor="#000">
   <div class="page">
     <header class="header">
       <img src="./images/header-logo.svg" alt="Логотип сервиса 'Место'" class="header__logo">
     </header>
+
+    <main class="content">
+      <section class="profile">
+        <img src="./images/Avatar.jpg" alt="Здесь находится ваш аватар" class="profile__avatar">
+        <div class="profile__user-info">
+          <h1 class="profile__user-name">Жак-Ив Кусто</h1>
+          <button class="profile__edit-button">
+            <img src="./images/edit-image.svg" alt="Кнопка изменения профиля" class="profile__edit-image">
+          </button>
+          <p class="profile__user-description">Исследователь океана</p>
+        </div>
+        <button class="profile__add-button">
+          <img src="./images/add-image.svg" alt="Кнопка добавления новых записей" class="profile__add-image">
+        </button>
+      </section>
+    </main>
   </div>
 </body>
+
 </html>
