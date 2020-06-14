@@ -1,0 +1,16 @@
+.element__like-button {
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 20.76px;
+  max-height: 18.13px;
+  margin: 0 20px;  /* В данной ситуации
+                      У всех лайков в макете
+                      отступы разные. Я посчитал
+                      это за ошибку и решил взять
+                      усредненное значение */  
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+}
