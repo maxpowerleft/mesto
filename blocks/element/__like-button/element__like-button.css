@@ -13,4 +13,9 @@
   border: none;
   background-color: #fff;
   cursor: pointer;
+  transition: opacity .4s ease;
+  opacity: 1;
 }
+
+.element__like-button:hover {
+  opacity: .6;

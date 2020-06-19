@@ -4,9 +4,14 @@
   min-height: 50px;
   border-radius: 2px;
   border: 0;
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 1);
   color: #fff;
   font-size: 18px;
   font-weight: 400;
   cursor: pointer;
+  transition: .2s ease;
+}
+
+.popup__save-button:hover {
+  background-color: rgba(0, 0, 0, .8);
 }
