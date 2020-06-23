@@ -14,13 +14,19 @@ const popupUserDescription = popup.querySelector('.popup__user-description');
 
 
 const popupToggle = function () {
-  popup.classList.toggle('popup_opened');
-  popupUserName.value = profileUserName.textContent;
-  popupUserDescription.value = profileUserDescription.textContent;
+  if (popup.classList.contains('popup_opened')) {
+    popup.classList.toggle('popup_opened');
+  } else {
+    popup.classList.toggle('popup_opened');
+    popupUserName.value = profileUserName.textContent;
+    popupUserDescription.value = profileUserDescription.textContent;
+  }
 }
 
 const popupOverlay = function (event) {
-  if (event.target !== event.currentTarget) {return};
+  if (event.target !== event.currentTarget) {
+    return
+  };
   popupToggle();
 }
 
