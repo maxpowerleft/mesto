@@ -9,3 +9,21 @@
 @import url(../blocks/popup/popup.css);
 
 @import url(../blocks/popup/_opened/popup_opened.css);
+
+
+.element__delete-button {
+  max-width: 18px;
+  width: 100%;
+  min-height: 19.3px;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+  border: none;
+  position: absolute;
+  top: 18px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

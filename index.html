@@ -23,7 +23,7 @@
         <img src="./images/Avatar.jpg" alt="Здесь находится ваш аватар" class="profile__avatar">
         <div class="profile__user-info">
           <p class="profile__user-name">Жак-Ив Кусто</p>
-          <button class="profile__edit-button profile__open-popup">
+          <button class="profile__edit-button">
             <img src="./images/edit-image.svg" alt="Кнопка изменения профиля" class="profile__edit-image">
           </button>
           <p class="profile__user-description">Исследователь океана</p>
@@ -34,49 +34,6 @@
       </section>
 
       <section class="elements">
-        <div class="element">
-          <img src="./images/Karachevsk.png" alt="Фотография Вашего поста" class="element__image">
-          <h3 class="element__title">Карачаевск</h3>
-          <button class="element__like-button">
-            <img src="./images/like-image.svg" alt="Кнопка 'Мне нравится'" class="element__like-image">
-          </button>
-
-        </div>
-        <div class="element">
-          <img src="./images/Elbrus.png" alt="Фотография Вашего поста" class="element__image">
-          <h3 class="element__title">Гора Эльбрус</h3>
-          <button class="element__like-button">
-            <img src="./images/like-image.svg" alt="Кнопка 'Мне нравится'" class="element__like-image">
-          </button>
-        </div>
-        <div class="element">
-          <img src="./images/Dombai.png" alt="Фотография Вашего поста" class="element__image">
-          <h3 class="element__title">Домбай</h3>
-          <button class="element__like-button">
-            <img src="./images/like-image.svg" alt="Кнопка 'Мне нравится'" class="element__like-image">
-          </button>
-        </div>
-        <div class="element">
-          <img src="./images/Elbrus.png" alt="Фотография Вашего поста" class="element__image">
-          <h3 class="element__title">Гора Эльбрус</h3>
-          <button class="element__like-button">
-            <img src="./images/like-image.svg" alt="Кнопка 'Мне нравится'" class="element__like-image">
-          </button>
-        </div>
-        <div class="element">
-          <img src="./images/Dombai.png" alt="Фотография Вашего поста" class="element__image">
-          <h3 class="element__title">Домбай</h3>
-          <button class="element__like-button">
-            <img src="./images/like-image.svg" alt="Кнопка 'Мне нравится'" class="element__like-image">
-          </button>
-        </div>
-        <div class="element">
-          <img src="./images/Karachevsk.png" alt="Фотография Вашего поста" class="element__image">
-          <h3 class="element__title">Карачаево-Черкесия</h3>
-          <button class="element__like-button">
-            <img src="./images/like-image.svg" alt="Кнопка 'Мне нравится'" class="element__like-image">
-          </button>
-        </div>
       </section>
     </main>
 
@@ -85,17 +42,42 @@
     </footer>
   </div>
 
-  <section class="popup">
-    <form action="#" class="popup__container">
+  <section class="popup popup_profile">
+    <form action="#" class="popup__container popup__profile-form">
         <img src="./images/popup__close.svg" alt="Кнопка закрытия модального окна" class="popup__close">
         <div class="popup__content">
           <h3 class="popup__title">Редактировать профиль</h3>
-          <input type="text" class="popup__input popup__text popup__user-name" name="user-name">
-          <input type="text" class="popup__input popup__text popup__user-description" name="user-description">
+          <input type="text" class="popup__input popup__text popup__user-name" name="user-name" placeholder="Имя">
+          <input type="text" class="popup__input popup__text popup__user-description" name="user-description" placeholder="Описание">
           <button type="submit" class="popup__save-button">Сохранить</button>
         </div>
     </form>
   </section>
+
+  <section class="popup popup_elements">
+    <form action="#" class="popup__container popup__elements-form">
+        <img src="./images/popup__close.svg" alt="Кнопка закрытия модального окна" class="popup__close popup__close_element">
+        <div class="popup__content">
+          <h3 class="popup__title">Новое место</h3>
+          <input type="text" class="popup__input popup__text popup__card-name" name="card-name" placeholder="Название">
+          <input type="text" class="popup__input popup__text popup__card-src" name="card-image-link" placeholder="Ссылка на фото/картинку">
+          <button type="submit" class="popup__save-button popup__save-button_element">Сохранить</button>
+        </div>
+    </form>
+  </section>
+
+  <template class="template-elements">
+    <div class="element">
+      <img src="#" alt="Фотография Вашего поста" class="element__image">
+      <button class="element__delete-button">
+        <img src="./images/trash.svg" alt="Кнопка удаления карточки" class="element__delete-image">
+      </button>
+      <h3 class="element__title"></h3>
+      <button class="element__like-button element__like-button_active"></button>
+    </div>
+  </template>
+
+
 <script type="text/javascript" src="scripts/index.js"></script>
 </body>
 

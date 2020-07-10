@@ -1,10 +1,11 @@
 .element__like-button {
+  background-image: url(../../../images/like-image.svg);
+  background-position: center center;
+  background-repeat: no-repeat;
   align-self: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 20.76px;
-  max-height: 18.13px;
+  max-width: 21px;
+  width: 100%;
+  min-height: 19px;
   margin: 0 20px;  /* В данной ситуации
                       У всех лайков в макете
                       отступы разные. Я посчитал
@@ -19,3 +20,4 @@
 
 .element__like-button:hover {
   opacity: .6;
+}
