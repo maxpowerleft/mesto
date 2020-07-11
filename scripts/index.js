@@ -53,6 +53,19 @@ const initialCards = [
   }
 ];
 
+// ФУНКЦИЯ СО СЛУШАТЕЛЯМИ
+
+function listeners (element) {
+  element.querySelector('.element__delete-button').addEventListener('click', deleteCard);
+  element.querySelector('.element__like-button').addEventListener('click', likeCard);
+}
+
+//  ОБЩИЕ ФУНКЦИИ
+
+const popupToggle = function (popup) {
+  popup.classList.toggle('popup_opened');
+}
+
 //  ФУНКЦИИ ГРУППЫ ELEMENTS
 
 function addCard(popupSaveAllInfoElement) {
@@ -61,7 +74,7 @@ function addCard(popupSaveAllInfoElement) {
   const elementImage = element.querySelector('.element__image');
   elementTitle.textContent = popupSaveAllInfoElement.name;
   elementImage.src = popupSaveAllInfoElement.link;
-
+  listeners(element);
   return element;
 }
 
@@ -75,8 +88,12 @@ function deleteCard (evt) {
   element.remove();
 }
 
-const popupElementsToggle = function () {
-    popupElements.classList.toggle('popup_opened');
+function likeCard (evt) {
+  evt.target.classList.toggle('element__like-button_active');
+}
+
+function saveElements () {
+    popupToggle(popupElements);
     popupSaveAllInfoElement.name = cardTitle.value;
     popupSaveAllInfoElement.link = cardImageSrc.value;
     cardTitle.value = '';
@@ -84,9 +101,9 @@ const popupElementsToggle = function () {
   }
 
 
-const elementsInfoEdit = function () {
-  popupElementsToggle();
+function elementsInfoEdit (event) {
   event.preventDefault();
+  saveElements();
   const element = addCard(popupSaveAllInfoElement);
   elements.prepend(element);
 }
@@ -95,25 +112,22 @@ const popupElementsOverlay = function (event) {
   if (event.target !== event.currentTarget) {
     return
   };
-  popupElementsToggle();
+  popupToggle(popupElements);
 }
 
 // ФУНКЦИИ ГРУППЫ PROFILE
 
-const popupProfileToggle = function () {
-  if (popupProfile.classList.contains('popup_opened')) {
-    popupProfile.classList.toggle('popup_opened');
-  } else {
-    popupProfile.classList.toggle('popup_opened');
+function saveProfile () {
+    popupToggle(popupProfile);
     popupUserName.value = profileUserName.textContent;
     popupUserDescription.value = profileUserDescription.textContent;
   }
-}
 
-const profileInfoEdit = function () {
+
+function profileInfoEdit (event) {
   profileUserName.textContent = popupUserName.value;
   profileUserDescription.textContent = popupUserDescription.value;
-  popupProfileToggle();
+  popupToggle(popupProfile);
   event.preventDefault();
 }
 
@@ -121,16 +135,13 @@ const popupProfileOverlay = function (event) {
   if (event.target !== event.currentTarget) {
     return
   };
-  popupProfileToggle();
+  popupToggle(popupProfile);
 }
 
-
-
-
-popupOpenButtonProfile.addEventListener('click', popupProfileToggle);
-popupCloseButtonProfile.addEventListener('click', popupProfileToggle);
-popupOpenButtonElement.addEventListener('click', popupElementsToggle);
-popupCloseButtonElement.addEventListener('click', popupElementsToggle);
+popupOpenButtonProfile.addEventListener('click', saveProfile);
+popupCloseButtonProfile.addEventListener('click', () => popupToggle(popupProfile));
+popupOpenButtonElement.addEventListener('click', saveElements);
+popupCloseButtonElement.addEventListener('click', () => popupToggle(popupElements));
 popupProfile.addEventListener('click', popupProfileOverlay);
 popupElements.addEventListener('click', popupElementsOverlay);
 
