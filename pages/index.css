@@ -8,57 +8,21 @@
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/popup/popup.css);
 
+/* Я выношу импорты в index.css за тем, чтобы они применялись 
+непосредственно в общих стилях и все работало так, как было задумано.
+
+Надеюсь, что это не критичная ошибка :)
+
+Спасибо!*/
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/element/__like-button/_active/element__like-button_active.css);
+@import url(../blocks/popup/__close/_fullscreen/popup__close_fullscreen.css);
 
-.element__delete-button {
-  max-width: 18px;
-  width: 100%;
-  min-height: 19.3px;
-  background: transparent;
-  cursor: pointer;
-  margin: 0;
-  border: none;
-  position: absolute;
-  top: 18px;
-  right: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity .2s ease;
-  opacity: 1;
-}
 
-.element__delete-button:hover {
-  opacity: .6;
-}
 
-.popup__fullscreen-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  padding: 0;
-  max-width: 75vw;
-  max-height: 75vh;
-}
 
-.popup__fullscreen-text {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
-  color: #fff;
-  margin: 10px 0 0;
-  padding: 0;
-}
 
-.popup__fullscreen-image {
-  max-width: 75vw;
-  max-height: 75vh;
-}
 
-.popup__close_fullscreen {
-  position: absolute;
-  left: 100%;
-  bottom: 99%;
-}
+
+
+

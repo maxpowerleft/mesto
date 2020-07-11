@@ -4,6 +4,9 @@
 @import url(./__save-button/popup__save-button.css);
 @import url(./__text/popup__text.css);
 @import url(./__title/popup__title.css);
+@import url(./__fullscreen-container/popup__fullscreen-container.css);
+@import url(./__fullscreen-image/popup__fullscreen-image.css);
+@import url(./__fullscreen-text/popup__fullscreen-text.css);
 
 .popup {
   font-family: 'Inter', Arial, Helvetica, sans-serif;
