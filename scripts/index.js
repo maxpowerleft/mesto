@@ -2,9 +2,9 @@
 
 const profile = document.querySelector('.profile');
 
-// ПЕРЕМЕННЫЕ РЕДАКТИРОВАНИЯ ПРОФИЛЯ
+// ПЕРЕМЕННЫЕ ПОПАПА ПРОФИЛЯ
 
-const popupProfile = document.querySelector('.popup_profile');
+const popupProfile = document.querySelector('.popup__profile');
 const profileUserName = document.querySelector('.profile__user-name');
 const profileUserDescription = document.querySelector('.profile__user-description');
 const popupOpenButtonProfile = document.querySelector('.profile__edit-button');
@@ -15,9 +15,9 @@ const popupUserDescription = document.querySelector('.popup__user-description');
 const popupSaveAllInfoProfile = document.querySelector('.popup__profile-form');
 
 
-// ПЕРЕМЕННЫЕ РЕДАКТИРОВАНИЯ ЭЛЕМЕНТОВ
+// ПЕРЕМЕННЫЕ ПОПАПА ЭЛЕМЕНТОВ
 
-const popupElements = document.querySelector('.popup_elements');
+const popupElements = document.querySelector('.popup__elements');
 const popupSaveAllInfoElement = document.querySelector('.popup__elements-form');
 const popupOpenButtonElement = document.querySelector('.profile__add-button');
 const popupCloseButtonElement = document.querySelector('.popup__close_element');
@@ -53,11 +53,19 @@ const initialCards = [
   }
 ];
 
+// ПЕРЕМЕННЫЕ FULLSCREEN ПОПАПА
+
+const popupFullscreen = document.querySelector('.popup__fullscreen');
+const fullscreenImage = document.querySelector('.popup__fullscreen-image');
+const fullscreenText = document.querySelector('.popup__fullscreen-text');
+const fullscreenCloseButton = document.querySelector('.popup__close_fullscreen')
+
 // ФУНКЦИЯ СО СЛУШАТЕЛЯМИ
 
 function listeners (element) {
   element.querySelector('.element__delete-button').addEventListener('click', deleteCard);
   element.querySelector('.element__like-button').addEventListener('click', likeCard);
+  element.querySelector('.element__image').addEventListener('click', openFullscreen);
 }
 
 //  ОБЩИЕ ФУНКЦИИ
@@ -74,13 +82,18 @@ function addCard(popupSaveAllInfoElement) {
   const elementImage = element.querySelector('.element__image');
   elementTitle.textContent = popupSaveAllInfoElement.name;
   elementImage.src = popupSaveAllInfoElement.link;
+  elementImage.alt = popupSaveAllInfoElement.name;
   listeners(element);
   return element;
 }
 
+function cardPlacement (element) {
+  elements.prepend(element);
+}
+
 initialCards.forEach(popupSaveAllInfoElement => {
   const element = addCard(popupSaveAllInfoElement);
-  elements.prepend(element);
+  cardPlacement(element);
 })
 
 function deleteCard (evt) {
@@ -105,7 +118,7 @@ function elementsInfoEdit (event) {
   event.preventDefault();
   saveElements();
   const element = addCard(popupSaveAllInfoElement);
-  elements.prepend(element);
+  cardPlacement(element);
 }
 
 const popupElementsOverlay = function (event) {
@@ -113,6 +126,22 @@ const popupElementsOverlay = function (event) {
     return
   };
   popupToggle(popupElements);
+}
+
+// ФУНКЦИИ ГРУППЫ FULLSCREEN
+
+function openFullscreen (evt) {
+  const element = evt.target.closest('.element__image');
+  fullscreenImage.src = element.src;
+  fullscreenText.textContent = element.alt;
+  popupToggle(popupFullscreen);
+}
+
+const popupFullscreenOverlay = function (event) {
+  if (event.target !== event.currentTarget) {
+    return
+  };
+  popupToggle(popupFullscreen);
 }
 
 // ФУНКЦИИ ГРУППЫ PROFILE
@@ -138,12 +167,17 @@ const popupProfileOverlay = function (event) {
   popupToggle(popupProfile);
 }
 
+// ОСНОВНЫЕ СЛУШАТЕЛИ
+
 popupOpenButtonProfile.addEventListener('click', saveProfile);
 popupCloseButtonProfile.addEventListener('click', () => popupToggle(popupProfile));
 popupOpenButtonElement.addEventListener('click', saveElements);
 popupCloseButtonElement.addEventListener('click', () => popupToggle(popupElements));
+fullscreenCloseButton.addEventListener('click', () => popupToggle(popupFullscreen));
+
 popupProfile.addEventListener('click', popupProfileOverlay);
 popupElements.addEventListener('click', popupElementsOverlay);
+popupFullscreen.addEventListener('click', popupFullscreenOverlay);
 
 popupSaveAllInfoProfile.addEventListener('submit', profileInfoEdit);
 popupSaveAllInfoElement.addEventListener('submit', elementsInfoEdit);
