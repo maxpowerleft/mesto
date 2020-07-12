@@ -7,16 +7,9 @@
 @import url(../blocks/element/element.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/popup/popup.css);
-
-/* Я выношу импорты в index.css за тем, чтобы они применялись 
-непосредственно в общих стилях и все работало так, как было задумано.
-
-Надеюсь, что это не критичная ошибка :)
-
-Спасибо!*/
+/* Спасибо! */
 @import url(../blocks/popup/_opened/popup_opened.css);
-@import url(../blocks/element/__like-button/_active/element__like-button_active.css);
-@import url(../blocks/popup/__close/_fullscreen/popup__close_fullscreen.css);
+
 
 
 
