@@ -1,6 +1,6 @@
 // ПЕРЕМЕННЫЕ ПОПАПА ПРОФИЛЯ
 
-const popupProfile = document.querySelector('.popup__profile');
+const popupProfile = document.querySelector('.popup_type_profile');
 const profileUserName = document.querySelector('.profile__user-name');
 const profileUserDescription = document.querySelector('.profile__user-description');
 const popupOpenButtonProfile = document.querySelector('.profile__edit-button');
@@ -12,14 +12,14 @@ const popupFormProfile = document.querySelector('.popup__profile-form');
 
 // ПЕРЕМЕННЫЕ ПОПАПА ЭЛЕМЕНТОВ
 
-const popupElements = document.querySelector('.popup__elements');
-const popupFormElement = document.querySelector('.popup__elements-form');
+const popupElements = document.querySelector('.popup_type_elements');
+const cardData = document.querySelector('.popup__elements-form');
 const popupOpenButtonElement = document.querySelector('.profile__add-button');
 const popupCloseButtonElement = document.querySelector('.popup__close_element');
 const elements = document.querySelector('.elements');
 const templateElements = document.querySelector('.template-elements');
-const cardTitle = popupFormElement.querySelector('.popup__card-name');
-const cardImageSrc = popupFormElement.querySelector('.popup__card-src');
+const cardTitle = cardData.querySelector('.popup__card-name');
+const cardImageSrc = cardData.querySelector('.popup__card-src');
 const initialCards = [
   {
       name: 'Архыз',
@@ -49,7 +49,7 @@ const initialCards = [
 
 // ПЕРЕМЕННЫЕ FULLSCREEN ПОПАПА
 
-const popupFullscreen = document.querySelector('.popup__fullscreen');
+const popupFullscreen = document.querySelector('.popup_type_fullscreen');
 const fullscreenImage = document.querySelector('.popup__fullscreen-image');
 const fullscreenText = document.querySelector('.popup__fullscreen-text');
 const fullscreenCloseButton = document.querySelector('.popup__close_fullscreen')
@@ -70,13 +70,13 @@ const popupToggle = function (popup) {
 
 //  ФУНКЦИИ ГРУППЫ ELEMENTS
 
-function createCard(popupFormElement) {
+function createCard(cardData) {
   const element = templateElements.content.cloneNode(true);
   const elementTitle = element.querySelector('.element__title');
   const elementImage = element.querySelector('.element__image');
-  elementTitle.textContent = popupFormElement.name;
-  elementImage.src = popupFormElement.link;
-  elementImage.alt = popupFormElement.name;
+  elementTitle.textContent = cardData.name;
+  elementImage.src = cardData.link;
+  elementImage.alt = cardData.name;
   addEventListeners(element);
   return element;
 }
@@ -85,8 +85,8 @@ function cardPlacement (element) {
   elements.prepend(element);
 }
 
-initialCards.forEach(popupFormElement => {
-  const element = createCard(popupFormElement);
+initialCards.forEach(cardData => {
+  const element = createCard(cardData);
   cardPlacement(element);
 })
 
@@ -99,10 +99,8 @@ function likeCard (evt) {
   evt.target.classList.toggle('element__like-button_active');
 }
 
-function saveElements () {
+function handleOpenAddCardPopup () {
     popupToggle(popupElements);
-    popupFormElement.name = cardTitle.value;
-    popupFormElement.link = cardImageSrc.value;
     cardTitle.value = '';
     cardImageSrc.value = '';
   }
@@ -142,7 +140,7 @@ const popupFullscreenOverlay = function (event) {
 
 // ФУНКЦИИ ГРУППЫ PROFILE
 
-function saveProfileInfo () {
+function handleOpenProfilePopup () {
     popupToggle(popupProfile);
     popupUserName.value = profileUserName.textContent;
     popupUserDescription.value = profileUserDescription.textContent;
@@ -165,9 +163,9 @@ const popupProfileOverlay = function (event) {
 
 // ОСНОВНЫЕ СЛУШАТЕЛИ
 
-popupOpenButtonProfile.addEventListener('click', saveProfileInfo);
+popupOpenButtonProfile.addEventListener('click', handleOpenProfilePopup);
 popupCloseButtonProfile.addEventListener('click', () => popupToggle(popupProfile));
-popupOpenButtonElement.addEventListener('click', saveElements);
+popupOpenButtonElement.addEventListener('click', handleOpenAddCardPopup);
 popupCloseButtonElement.addEventListener('click', () => popupToggle(popupElements));
 fullscreenCloseButton.addEventListener('click', () => popupToggle(popupFullscreen));
 
@@ -176,4 +174,4 @@ popupElements.addEventListener('click', popupElementsOverlay);
 popupFullscreen.addEventListener('click', popupFullscreenOverlay);
 
 popupFormProfile.addEventListener('submit', profileInfoEdit);
-popupFormElement.addEventListener('submit', elementsInfoEdit);
+cardData.addEventListener('submit', elementsInfoEdit);
