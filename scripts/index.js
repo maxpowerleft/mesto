@@ -1,3 +1,6 @@
+const formElement = document.querySelector('.popup__container');
+const inputElement = document.querySelector('.popup__input');
+
 // ПЕРЕМЕННЫЕ ПОПАПА ПРОФИЛЯ
 
 const popupProfile = document.querySelector('.popup_type_profile');
@@ -161,6 +164,49 @@ const popupProfileOverlay = function (event) {
   popupToggle(popupProfile);
 }
 
+// ПРОВЕРКА ВАЛИДНОСТИ ФОРМЫ PROFILE 
+
+const showInputError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  inputElement.classList.add('popup__input_type_error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('popup__input-error_active');
+};
+
+const hideInputError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  inputElement.classList.remove('popup__input_type_error');
+  errorElement.classList.remove('popup__input-error_active');
+  errorElement.textContent = '';
+};
+
+const isValid = (formElement, inputElement) => {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+};
+
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', () => {
+      isValid(formElement, inputElement)
+    });
+  });
+};
+
+const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll('.popup__container'));
+  formList.forEach((formElement) => {
+    formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+    });
+    setEventListeners(formElement);
+  });
+};
+
 // ОСНОВНЫЕ СЛУШАТЕЛИ
 
 popupOpenButtonProfile.addEventListener('click', handleOpenProfilePopup);
@@ -175,3 +221,5 @@ popupFullscreen.addEventListener('click', popupFullscreenOverlay);
 
 popupFormProfile.addEventListener('submit', profileInfoEdit);
 cardData.addEventListener('submit', elementsInfoEdit);
+
+enableValidation();
