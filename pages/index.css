@@ -10,22 +10,6 @@
 /* Спасибо! */
 @import url(../blocks/popup/_opened/popup_opened.css);
 
-.popup__input_type_error {
-  border-bottom: 1px solid #ff0000;
-}
-
-.popup__input-error {
-  display: none;
-}
-
-.popup__input-error_active {
-  display: block;
-  color: #ff0000;
-}
-
-
-
-
 
 
 

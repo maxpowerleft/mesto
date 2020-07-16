@@ -1,5 +1,13 @@
-const formElement = document.querySelector('.popup__container');
-const inputElement = document.querySelector('.popup__input');
+//  ВСЕ НЕОБХОДИМЫЕ НАСТРОЙКИ ДЛЯ ВАЛИДАЦИИ ФОРМ
+
+const config = {
+  formSelector: '.popup__form',
+  inputList: '.popup__input',
+  buttonElement: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_inactive',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
+}
 
 // ПЕРЕМЕННЫЕ ПОПАПА ПРОФИЛЯ
 
@@ -69,6 +77,13 @@ function addEventListeners (element) {
 
 const popupToggle = function (popup) {
   popup.classList.toggle('popup_opened');
+  if (popup.classList.contains('popup_opened')) {
+    enableValidation(config);
+  } else {
+    const formElement = document.querySelector('.popup__form');
+    formElement.reset();
+    cleanInputErrorValidation(popup, config); 
+  }
 }
 
 //  ФУНКЦИИ ГРУППЫ ELEMENTS
@@ -164,48 +179,15 @@ const popupProfileOverlay = function (event) {
   popupToggle(popupProfile);
 }
 
-// ПРОВЕРКА ВАЛИДНОСТИ ФОРМЫ PROFILE 
+//  ВЫХОД ИЗ ПОПАПА ПО НАЖАТИЮ НА ESC
 
-const showInputError = (formElement, inputElement, errorMessage) => {
-  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-  inputElement.classList.add('popup__input_type_error');
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add('popup__input-error_active');
-};
-
-const hideInputError = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-  inputElement.classList.remove('popup__input_type_error');
-  errorElement.classList.remove('popup__input-error_active');
-  errorElement.textContent = '';
-};
-
-const isValid = (formElement, inputElement) => {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideInputError(formElement, inputElement);
+function closePopupByEsqButton(evt) {
+  const popupOpened = document.querySelector('.popup_opened');
+  if (evt.key === 'Escape') {
+    popupToggle(popupOpened);
   }
-};
-
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', () => {
-      isValid(formElement, inputElement)
-    });
-  });
-};
-
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll('.popup__container'));
-  formList.forEach((formElement) => {
-    formElement.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-    });
-    setEventListeners(formElement);
-  });
-};
+  return;
+}
 
 // ОСНОВНЫЕ СЛУШАТЕЛИ
 
@@ -218,8 +200,7 @@ fullscreenCloseButton.addEventListener('click', () => popupToggle(popupFullscree
 popupProfile.addEventListener('click', popupProfileOverlay);
 popupElements.addEventListener('click', popupElementsOverlay);
 popupFullscreen.addEventListener('click', popupFullscreenOverlay);
+document.addEventListener('keydown', closePopupByEsqButton);
 
 popupFormProfile.addEventListener('submit', profileInfoEdit);
 cardData.addEventListener('submit', elementsInfoEdit);
-
-enableValidation();
