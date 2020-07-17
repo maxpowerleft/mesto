@@ -73,18 +73,27 @@ function addEventListeners (element) {
   element.querySelector('.element__image').addEventListener('click', openFullscreen);
 }
 
-//  ОБЩИЕ ФУНКЦИИ
+//  ОБЩИЕ ФУНКЦИИ ЗАКРЫТИЯ И ОТКРЫТИЯ ПОПАПОВ
 
-const popupToggle = function (popup) {
-  popup.classList.toggle('popup_opened');
-  if (popup.classList.contains('popup_opened')) {
-    enableValidation(config);
-  } else {
-    const formElement = document.querySelector('.popup__form');
-    formElement.reset();
-    cleanInputErrorValidation(popup, config); 
-  }
+// const popupToggle = function (popup) {
+//   if (!popup.classList.contains('popup_opened')) { 
+//     popup.classList.toggle('popup_opened');
+//     document.addEventListener('keydown', closePopupByEscButton);
+//   }else {
+//   popup.classList.toggle('popup_opened');
+//   }
+// }
+
+const openPopup = function (popup) {
+  popup.classList.add('.popup_opened');
+  document.addEventListener('keydown', closePopupByEscButton);
 }
+
+const closePopup = function (popup) {
+  popup.classList.remove('.popup_opened');
+  document.removeEventListener('keydown', closePopupByEscButton);
+}
+
 
 //  ФУНКЦИИ ГРУППЫ ELEMENTS
 
@@ -118,9 +127,10 @@ function likeCard (evt) {
 }
 
 function handleOpenAddCardPopup () {
-    popupToggle(popupElements);
     cardTitle.value = '';
     cardImageSrc.value = '';
+    cleanInputErrorValidation(popupElements, config); 
+    openPopup(popupElements);
   }
 
 function elementsInfoEdit (event) {
@@ -129,15 +139,14 @@ function elementsInfoEdit (event) {
     name: cardTitle.value,
     link: cardImageSrc.value,
   });
-  popupToggle(popupElements);
   cardPlacement(element);
+  closePopup(popupElements);
 }
 
 const popupElementsOverlay = function (event) {
-  if (event.target !== event.currentTarget) {
-    return
+  if (event.target === event.currentTarget) {
+    closePopup(popupElements);
   };
-  popupToggle(popupElements);
 }
 
 // ФУНКЦИИ ГРУППЫ FULLSCREEN
@@ -146,45 +155,44 @@ function openFullscreen (evt) {
   const element = evt.target.closest('.element__image');
   fullscreenImage.src = element.src;
   fullscreenText.textContent = element.alt;
-  popupToggle(popupFullscreen);
+  openPopup(popupFullscreen);
 }
 
 const popupFullscreenOverlay = function (event) {
-  if (event.target !== event.currentTarget) {
-    return
+  if (event.target === event.currentTarget) {
+    closePopup(popupFullscreen);
   };
-  popupToggle(popupFullscreen);
 }
 
 // ФУНКЦИИ ГРУППЫ PROFILE
 
 function handleOpenProfilePopup () {
-    popupToggle(popupProfile);
+    openPopup(popupProfile);
     popupUserName.value = profileUserName.textContent;
     popupUserDescription.value = profileUserDescription.textContent;
+    cleanInputErrorValidation(popupProfile, config); 
   }
 
 
 function profileInfoEdit (event) {
   profileUserName.textContent = popupUserName.value;
   profileUserDescription.textContent = popupUserDescription.value;
-  popupToggle(popupProfile);
+  closePopup(popupProfile);
   event.preventDefault();
 }
 
 const popupProfileOverlay = function (event) {
-  if (event.target !== event.currentTarget) {
-    return
+  if (event.target === event.currentTarget) {
+    closePopup(popupProfile);
   };
-  popupToggle(popupProfile);
 }
 
 //  ВЫХОД ИЗ ПОПАПА ПО НАЖАТИЮ НА ESC
 
-function closePopupByEsqButton(evt) {
+function closePopupByEscButton(evt) {
   const popupOpened = document.querySelector('.popup_opened');
   if (evt.key === 'Escape') {
-    popupToggle(popupOpened);
+    closePopup(popupOpened);
   }
   return;
 }
@@ -192,15 +200,16 @@ function closePopupByEsqButton(evt) {
 // ОСНОВНЫЕ СЛУШАТЕЛИ
 
 popupOpenButtonProfile.addEventListener('click', handleOpenProfilePopup);
-popupCloseButtonProfile.addEventListener('click', () => popupToggle(popupProfile));
+popupCloseButtonProfile.addEventListener('click', () => closePopup(popupProfile));
 popupOpenButtonElement.addEventListener('click', handleOpenAddCardPopup);
-popupCloseButtonElement.addEventListener('click', () => popupToggle(popupElements));
-fullscreenCloseButton.addEventListener('click', () => popupToggle(popupFullscreen));
+popupCloseButtonElement.addEventListener('click', () => closePopup(popupElements));
+fullscreenCloseButton.addEventListener('click', () => closePopup(popupFullscreen));
 
 popupProfile.addEventListener('click', popupProfileOverlay);
 popupElements.addEventListener('click', popupElementsOverlay);
 popupFullscreen.addEventListener('click', popupFullscreenOverlay);
-document.addEventListener('keydown', closePopupByEsqButton);
+
 
 popupFormProfile.addEventListener('submit', profileInfoEdit);
 cardData.addEventListener('submit', elementsInfoEdit);
+enableValidation(config);
