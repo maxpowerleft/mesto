@@ -75,25 +75,15 @@ function addEventListeners (element) {
 
 //  ОБЩИЕ ФУНКЦИИ ЗАКРЫТИЯ И ОТКРЫТИЯ ПОПАПОВ
 
-// const popupToggle = function (popup) {
-//   if (!popup.classList.contains('popup_opened')) { 
-//     popup.classList.toggle('popup_opened');
-//     document.addEventListener('keydown', closePopupByEscButton);
-//   }else {
-//   popup.classList.toggle('popup_opened');
-//   }
-// }
-
 const openPopup = function (popup) {
-  popup.classList.add('.popup_opened');
+  popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupByEscButton);
 }
 
 const closePopup = function (popup) {
-  popup.classList.remove('.popup_opened');
+  popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupByEscButton);
 }
-
 
 //  ФУНКЦИИ ГРУППЫ ELEMENTS
 
