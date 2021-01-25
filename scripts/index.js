@@ -1,183 +1,146 @@
-// ОБЩИЕ ПЕРЕМЕННЫЕ
+import Card from './Card.js';
+import { initialCards } from './utils.js';
 
-const profile = document.querySelector('.profile');
+//  ВСЕ НЕОБХОДИМЫЕ НАСТРОЙКИ ДЛЯ ВАЛИДАЦИИ ФОРМ
+
+const config = {
+  formSelector: '.popup__form',
+  inputList: '.popup__input',
+  buttonElement: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_inactive',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
+}
 
 // ПЕРЕМЕННЫЕ ПОПАПА ПРОФИЛЯ
 
-const popupProfile = document.querySelector('.popup__profile');
+const popupProfile = document.querySelector('.popup_type_profile');
 const profileUserName = document.querySelector('.profile__user-name');
 const profileUserDescription = document.querySelector('.profile__user-description');
 const popupOpenButtonProfile = document.querySelector('.profile__edit-button');
 const popupCloseButtonProfile = document.querySelector('.popup__close');
-const popupSaveButtonProfile = document.querySelector('.popup__save-button');
 const popupUserName = document.querySelector('.popup__user-name');
 const popupUserDescription = document.querySelector('.popup__user-description');
-const popupSaveAllInfoProfile = document.querySelector('.popup__profile-form');
+const popupFormProfile = document.querySelector('.popup__profile-form');
 
 
 // ПЕРЕМЕННЫЕ ПОПАПА ЭЛЕМЕНТОВ
 
-const popupElements = document.querySelector('.popup__elements');
-const popupSaveAllInfoElement = document.querySelector('.popup__elements-form');
+const popupElements = document.querySelector('.popup_type_elements');
+const cardData = document.querySelector('.popup__elements-form');
 const popupOpenButtonElement = document.querySelector('.profile__add-button');
 const popupCloseButtonElement = document.querySelector('.popup__close_element');
-const popupSaveButtonElement = document.querySelector('.popup__save-button_element');
 const elements = document.querySelector('.elements');
-const templateElements = document.querySelector('.template-elements');
-const cardTitle = popupSaveAllInfoElement.querySelector('.popup__card-name');
-const cardImageSrc = popupSaveAllInfoElement.querySelector('.popup__card-src');
-const initialCards = [
-  {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+const cardTitle = cardData.querySelector('.popup__card-name');
+const cardImageSrc = cardData.querySelector('.popup__card-src');
 
 // ПЕРЕМЕННЫЕ FULLSCREEN ПОПАПА
 
-const popupFullscreen = document.querySelector('.popup__fullscreen');
-const fullscreenImage = document.querySelector('.popup__fullscreen-image');
-const fullscreenText = document.querySelector('.popup__fullscreen-text');
+export const popupFullscreen = document.querySelector('.popup_type_fullscreen');
 const fullscreenCloseButton = document.querySelector('.popup__close_fullscreen')
 
-// ФУНКЦИЯ СО СЛУШАТЕЛЯМИ
+//  ОБЩИЕ ФУНКЦИИ ЗАКРЫТИЯ И ОТКРЫТИЯ ПОПАПОВ
 
-function listeners (element) {
-  element.querySelector('.element__delete-button').addEventListener('click', deleteCard);
-  element.querySelector('.element__like-button').addEventListener('click', likeCard);
-  element.querySelector('.element__image').addEventListener('click', openFullscreen);
+export const openPopup = function (popup) {
+  popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupByEscButton);
 }
 
-//  ОБЩИЕ ФУНКЦИИ
-
-const popupToggle = function (popup) {
-  popup.classList.toggle('popup_opened');
+const closePopup = function (popup) {
+  popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupByEscButton);
 }
 
 //  ФУНКЦИИ ГРУППЫ ELEMENTS
 
-function addCard(popupSaveAllInfoElement) {
-  const element = templateElements.content.cloneNode(true);
-  const elementTitle = element.querySelector('.element__title');
-  const elementImage = element.querySelector('.element__image');
-  elementTitle.textContent = popupSaveAllInfoElement.name;
-  elementImage.src = popupSaveAllInfoElement.link;
-  elementImage.alt = popupSaveAllInfoElement.name;
-  listeners(element);
-  return element;
-}
+initialCards.forEach(item => {
+  const card = new Card(item);
+  const cardElement = card.generateCard();
+  cardPlacement(cardElement);
+});
 
 function cardPlacement (element) {
   elements.prepend(element);
 }
 
-initialCards.forEach(popupSaveAllInfoElement => {
-  const element = addCard(popupSaveAllInfoElement);
-  cardPlacement(element);
-})
-
-function deleteCard (evt) {
-  const element = evt.target.closest('.element')
-  element.remove();
-}
-
-function likeCard (evt) {
-  evt.target.classList.toggle('element__like-button_active');
-}
-
-function saveElements () {
-    popupToggle(popupElements);
-    popupSaveAllInfoElement.name = cardTitle.value;
-    popupSaveAllInfoElement.link = cardImageSrc.value;
+function handleOpenAddCardPopup () {
     cardTitle.value = '';
     cardImageSrc.value = '';
+    cleanInputErrorValidation(popupElements, config); 
+    openPopup(popupElements);
   }
-
 
 function elementsInfoEdit (event) {
   event.preventDefault();
-  saveElements();
-  const element = addCard(popupSaveAllInfoElement);
-  cardPlacement(element);
+  const card = new Card({
+    name: cardTitle.value,
+    link: cardImageSrc.value,
+  });
+  const cardElement = card.generateCard();
+  cardPlacement(cardElement);
+  closePopup(popupElements);
 }
 
 const popupElementsOverlay = function (event) {
-  if (event.target !== event.currentTarget) {
-    return
+  if (event.target === event.currentTarget) {
+    closePopup(popupElements);
   };
-  popupToggle(popupElements);
 }
 
 // ФУНКЦИИ ГРУППЫ FULLSCREEN
 
-function openFullscreen (evt) {
-  const element = evt.target.closest('.element__image');
-  fullscreenImage.src = element.src;
-  fullscreenText.textContent = element.alt;
-  popupToggle(popupFullscreen);
-}
-
 const popupFullscreenOverlay = function (event) {
-  if (event.target !== event.currentTarget) {
-    return
+  if (event.target === event.currentTarget) {
+    closePopup(popupFullscreen);
   };
-  popupToggle(popupFullscreen);
 }
 
 // ФУНКЦИИ ГРУППЫ PROFILE
 
-function saveProfile () {
-    popupToggle(popupProfile);
+function handleOpenProfilePopup () {
+    openPopup(popupProfile);
     popupUserName.value = profileUserName.textContent;
     popupUserDescription.value = profileUserDescription.textContent;
+    cleanInputErrorValidation(popupProfile, config); 
   }
 
 
 function profileInfoEdit (event) {
   profileUserName.textContent = popupUserName.value;
   profileUserDescription.textContent = popupUserDescription.value;
-  popupToggle(popupProfile);
+  closePopup(popupProfile);
   event.preventDefault();
 }
 
 const popupProfileOverlay = function (event) {
-  if (event.target !== event.currentTarget) {
-    return
+  if (event.target === event.currentTarget) {
+    closePopup(popupProfile);
   };
-  popupToggle(popupProfile);
+}
+
+//  ВЫХОД ИЗ ПОПАПА ПО НАЖАТИЮ НА ESC
+
+function closePopupByEscButton(evt) {
+  const popupOpened = document.querySelector('.popup_opened');
+  if (evt.key === 'Escape') {
+    closePopup(popupOpened);
+  }
+  return;
 }
 
 // ОСНОВНЫЕ СЛУШАТЕЛИ
 
-popupOpenButtonProfile.addEventListener('click', saveProfile);
-popupCloseButtonProfile.addEventListener('click', () => popupToggle(popupProfile));
-popupOpenButtonElement.addEventListener('click', saveElements);
-popupCloseButtonElement.addEventListener('click', () => popupToggle(popupElements));
-fullscreenCloseButton.addEventListener('click', () => popupToggle(popupFullscreen));
+popupOpenButtonProfile.addEventListener('click', handleOpenProfilePopup);
+popupCloseButtonProfile.addEventListener('click', () => closePopup(popupProfile));
+popupOpenButtonElement.addEventListener('click', handleOpenAddCardPopup);
+popupCloseButtonElement.addEventListener('click', () => closePopup(popupElements));
+fullscreenCloseButton.addEventListener('click', () => closePopup(popupFullscreen));
 
 popupProfile.addEventListener('click', popupProfileOverlay);
 popupElements.addEventListener('click', popupElementsOverlay);
 popupFullscreen.addEventListener('click', popupFullscreenOverlay);
 
-popupSaveAllInfoProfile.addEventListener('submit', profileInfoEdit);
-popupSaveAllInfoElement.addEventListener('submit', elementsInfoEdit);
+
+popupFormProfile.addEventListener('submit', profileInfoEdit);
+cardData.addEventListener('submit', elementsInfoEdit);
+enableValidation(config);

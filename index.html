@@ -42,33 +42,41 @@
     </footer>
   </div>
 
-  <section class="popup popup__profile">
-    <form action="#" class="popup__container popup__profile-form">
-        <img src="./images/popup__close.svg" alt="Кнопка закрытия модального окна" class="popup__close">
-        <div class="popup__content">
-          <h3 class="popup__title">Редактировать профиль</h3>
-          <input type="text" class="popup__input popup__text popup__user-name" name="user-name" placeholder="Имя">
-          <input type="text" class="popup__input popup__text popup__user-description" name="user-description" placeholder="Описание">
-          <button type="submit" class="popup__save-button">Сохранить</button>
-        </div>
+  <section class="popup popup_type_profile">
+    <form action="#" class="popup__form popup__profile-form" novalidate>
+      <img src="./images/popup__close.svg" alt="Кнопка закрытия модального окна" class="popup__close">
+      <div class="popup__content">
+        <h3 class="popup__title">Редактировать профиль</h3>
+        <input id="user-name-input" type="text" class="popup__input popup__text popup__user-name" name="user-name" placeholder="Имя" required minlength="2" maxlength="40">
+        <span id="user-name-input-error" class="popup__input-error"></span>
+        <input id="user-description-input" type="text" class="popup__input popup__text popup__user-description" name="user-description"
+          placeholder="Описание" required minlength="2" maxlength="200"> 
+        <span id="user-description-input-error" class="popup__input-error"></span>
+        <button type="submit" class="popup__save-button">Сохранить</button>
+      </div>
     </form>
   </section>
 
-  <section class="popup popup__elements">
-    <form action="#" class="popup__container popup__elements-form">
-        <img src="./images/popup__close.svg" alt="Кнопка закрытия модального окна" class="popup__close popup__close_element">
-        <div class="popup__content">
-          <h3 class="popup__title">Новое место</h3>
-          <input type="text" class="popup__input popup__text popup__card-name" name="card-name" placeholder="Название">
-          <input type="text" class="popup__input popup__text popup__card-src" name="card-image-link" placeholder="Ссылка на фото/картинку">
-          <button type="submit" class="popup__save-button popup__save-button_element">Сохранить</button>
-        </div>
+  <section class="popup popup_type_elements">
+    <form action="#" class="popup__form popup__elements-form" novalidate>
+      <img src="./images/popup__close.svg" alt="Кнопка закрытия модального окна"
+        class="popup__close popup__close_element">
+      <div class="popup__content">
+        <h3 class="popup__title">Новое место</h3>
+        <input id="card-name-input" type="text" class="popup__input popup__text popup__card-name" name="card-name" placeholder="Название" required minlength="1" maxlength="30">
+        <span id="card-name-input-error" class="popup__input-error"></span>
+        <input id="card-src-input" type="url" class="popup__input popup__text popup__card-src" name="card-image-link"
+          placeholder="Ссылка на фото/картинку" required>
+        <span id="card-src-input-error" class="popup__input-error"></span>
+        <button type="submit" class="popup__save-button popup__save-button_element">Сохранить</button>
+      </div>
     </form>
   </section>
 
-  <section class="popup popup__fullscreen">
+  <section class="popup popup_type_fullscreen">
     <div class="popup__fullscreen-container">
-      <img src="./images/popup__close.svg" alt="Кнопка закрытия модального окна" class="popup__close popup__close_element popup__close_fullscreen">
+      <img src="./images/popup__close.svg" alt="Кнопка закрытия модального окна"
+        class="popup__close popup__close_element popup__close_fullscreen">
       <img src="#" alt="Фотография на весь экран" class="popup__fullscreen-image">
       <p class="popup__fullscreen-text"></p>
     </div>
@@ -86,8 +94,8 @@
     </div>
   </template>
 
-
-<script type="text/javascript" src="scripts/index.js"></script>
+  <script type="text/javascript" src="./scripts/validate.js"></script>
+  <script type="module" src="./scripts/index.js"></script>
 </body>
 
 </html>
