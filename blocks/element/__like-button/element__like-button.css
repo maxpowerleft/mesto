@@ -6,11 +6,7 @@
   max-width: 21px;
   width: 100%;
   min-height: 19px;
-  margin: 0 20px;  /* В данной ситуации
-                      У всех лайков в макете
-                      отступы разные. Я посчитал
-                      это за ошибку и решил взять
-                      усредненное значение */  
+  margin: 0 20px;
   border: none;
   background-color: #fff;
   cursor: pointer;
