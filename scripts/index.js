@@ -1,5 +1,6 @@
-import Card from './Card.js';
 import { initialCards } from './utils.js';
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 
 //  ВСЕ НЕОБХОДИМЫЕ НАСТРОЙКИ ДЛЯ ВАЛИДАЦИИ ФОРМ
 
@@ -23,7 +24,6 @@ const popupUserName = document.querySelector('.popup__user-name');
 const popupUserDescription = document.querySelector('.popup__user-description');
 const popupFormProfile = document.querySelector('.popup__profile-form');
 
-
 // ПЕРЕМЕННЫЕ ПОПАПА ЭЛЕМЕНТОВ
 
 const popupElements = document.querySelector('.popup_type_elements');
@@ -38,6 +38,16 @@ const cardImageSrc = cardData.querySelector('.popup__card-src');
 
 export const popupFullscreen = document.querySelector('.popup_type_fullscreen');
 const fullscreenCloseButton = document.querySelector('.popup__close_fullscreen')
+
+//  ЭКЗЕМПЛЯРЫ КЛАССА FormValidator 
+
+const elementsFormValidation = new FormValidator(config, cardData);
+const profileFormValidation = new FormValidator(config, popupFormProfile);
+
+// МЕТОДЫ КЛАССА FormValidator
+
+elementsFormValidation.enableValidation();
+profileFormValidation.enableValidation();
 
 //  ОБЩИЕ ФУНКЦИИ ЗАКРЫТИЯ И ОТКРЫТИЯ ПОПАПОВ
 
@@ -59,18 +69,18 @@ initialCards.forEach(item => {
   cardPlacement(cardElement);
 });
 
-function cardPlacement (element) {
+function cardPlacement(element) {
   elements.prepend(element);
 }
 
-function handleOpenAddCardPopup () {
-    cardTitle.value = '';
-    cardImageSrc.value = '';
-    cleanInputErrorValidation(popupElements, config); 
-    openPopup(popupElements);
-  }
+function handleOpenAddCardPopup() {
+  cardTitle.value = '';
+  cardImageSrc.value = '';
+  elementsFormValidation.cleanInputErrorValidation();
+  openPopup(popupElements);
+}
 
-function elementsInfoEdit (event) {
+function elementsInfoEdit(event) {
   event.preventDefault();
   const card = new Card({
     name: cardTitle.value,
@@ -97,15 +107,15 @@ const popupFullscreenOverlay = function (event) {
 
 // ФУНКЦИИ ГРУППЫ PROFILE
 
-function handleOpenProfilePopup () {
-    openPopup(popupProfile);
-    popupUserName.value = profileUserName.textContent;
-    popupUserDescription.value = profileUserDescription.textContent;
-    cleanInputErrorValidation(popupProfile, config); 
-  }
+function handleOpenProfilePopup() {
+  openPopup(popupProfile);
+  popupUserName.value = profileUserName.textContent;
+  popupUserDescription.value = profileUserDescription.textContent;
+  profileFormValidation.cleanInputErrorValidation();
+}
 
 
-function profileInfoEdit (event) {
+function profileInfoEdit(event) {
   profileUserName.textContent = popupUserName.value;
   profileUserDescription.textContent = popupUserDescription.value;
   closePopup(popupProfile);
@@ -143,4 +153,3 @@ popupFullscreen.addEventListener('click', popupFullscreenOverlay);
 
 popupFormProfile.addEventListener('submit', profileInfoEdit);
 cardData.addEventListener('submit', elementsInfoEdit);
-enableValidation(config);
