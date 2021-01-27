@@ -63,35 +63,35 @@ const closePopup = function (popup) {
 
 //  ФУНКЦИИ ГРУППЫ ELEMENTS
 
+// Спасибо большое за советы с созданием экземпляра класса, но я решил, что лучше я сам дойду до этого и пойму зачем :)
 initialCards.forEach(item => {
-  const card = new Card(item);
+  const card = new Card(item, '.template-elements');
   const cardElement = card.generateCard();
-  cardPlacement(cardElement);
+  placeTheCard(cardElement);
 });
 
-function cardPlacement(element) {
+function placeTheCard(element) {
   elements.prepend(element);
 }
 
 function handleOpenAddCardPopup() {
-  cardTitle.value = '';
-  cardImageSrc.value = '';
+  cardData.reset();
   elementsFormValidation.cleanInputErrorValidation();
   openPopup(popupElements);
 }
 
-function elementsInfoEdit(event) {
+function editElementsInfo(event) {
   event.preventDefault();
   const card = new Card({
     name: cardTitle.value,
     link: cardImageSrc.value,
-  });
+  },'.template-elements');
   const cardElement = card.generateCard();
-  cardPlacement(cardElement);
+  placeTheCard(cardElement);
   closePopup(popupElements);
 }
 
-const popupElementsOverlay = function (event) {
+const makeElementsPopupOverlay = function (event) {
   if (event.target === event.currentTarget) {
     closePopup(popupElements);
   };
@@ -99,7 +99,7 @@ const popupElementsOverlay = function (event) {
 
 // ФУНКЦИИ ГРУППЫ FULLSCREEN
 
-const popupFullscreenOverlay = function (event) {
+const makeFullScreenPopupOverlay = function (event) {
   if (event.target === event.currentTarget) {
     closePopup(popupFullscreen);
   };
@@ -115,14 +115,14 @@ function handleOpenProfilePopup() {
 }
 
 
-function profileInfoEdit(event) {
+function editProfileInfo(event) {
   profileUserName.textContent = popupUserName.value;
   profileUserDescription.textContent = popupUserDescription.value;
   closePopup(popupProfile);
   event.preventDefault();
 }
 
-const popupProfileOverlay = function (event) {
+const makeProfilePopupOverlay = function (event) {
   if (event.target === event.currentTarget) {
     closePopup(popupProfile);
   };
@@ -146,10 +146,10 @@ popupOpenButtonElement.addEventListener('click', handleOpenAddCardPopup);
 popupCloseButtonElement.addEventListener('click', () => closePopup(popupElements));
 fullscreenCloseButton.addEventListener('click', () => closePopup(popupFullscreen));
 
-popupProfile.addEventListener('click', popupProfileOverlay);
-popupElements.addEventListener('click', popupElementsOverlay);
-popupFullscreen.addEventListener('click', popupFullscreenOverlay);
+popupProfile.addEventListener('click', makeProfilePopupOverlay);
+popupElements.addEventListener('click', makeElementsPopupOverlay);
+popupFullscreen.addEventListener('click', makeFullScreenPopupOverlay);
 
 
-popupFormProfile.addEventListener('submit', profileInfoEdit);
-cardData.addEventListener('submit', elementsInfoEdit);
+popupFormProfile.addEventListener('submit', editProfileInfo);
+cardData.addEventListener('submit', editElementsInfo);

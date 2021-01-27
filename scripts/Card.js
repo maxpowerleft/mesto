@@ -1,15 +1,21 @@
 import { openPopup, popupFullscreen } from './index.js';
-
+/*
+Я смотрел требования следующей проектной работы,
+поэтому исходя из них решил, что в рамках этого задания
+такое решение будет более-менее уместно.
+В следующей проектной я в любом случае этот момент буду править :)
+*/
 export default class Card {
-  constructor(data) {
+  constructor(data, templateSelector) {
     this._name = data.name;
     this._link = data.link;
     this._alt = data.name;
+    this._templateSelector = templateSelector;
   }
 
   _getTemplate() {
     const cardElement = document
-      .querySelector('.template-elements')
+      .querySelector(this._templateSelector)
       .content
       .cloneNode(true);
 
@@ -41,6 +47,7 @@ export default class Card {
   _deleteCard(evt) {
     this._element = evt.target.closest('.element');
     this._element.remove();
+    this._element = null;
   }
 
   _likeCard(evt) {
@@ -48,6 +55,7 @@ export default class Card {
   }
 
   _openFullscreen = () => {
+    // Я, честно говоря, не совсем понял как это реализовать, но я позднее пообщаюсь с наставником :)
     openPopup(popupFullscreen);
     document.querySelector('.popup__fullscreen-image').src = this._link;
     document.querySelector('.popup__fullscreen-text').textContent = this._name;
