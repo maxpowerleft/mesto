@@ -61,6 +61,7 @@ export default class FormValidator {
   _setEventListeners = () => {
     const inputList = Array.from(this._formElement.querySelectorAll(this._inputList));
     const buttonElement = this._formElement.querySelector(this._buttonElement);
+    // У меня все ломается :/
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._isValid(inputElement);
