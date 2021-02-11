@@ -24,3 +24,14 @@ export const initialCards = [
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+//  ВСЕ НЕОБХОДИМЫЕ НАСТРОЙКИ ДЛЯ ВАЛИДАЦИИ ФОРМ
+
+export const config = {
+  formSelector: '.popup__form',
+  inputList: '.popup__input',
+  buttonElement: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_inactive',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
+}

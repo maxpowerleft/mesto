@@ -1,15 +1,9 @@
-import { openPopup, popupFullscreen } from './index.js';
-/*
-Я смотрел требования следующей проектной работы,
-поэтому исходя из них решил, что в рамках этого задания
-такое решение будет более-менее уместно.
-В следующей проектной я в любом случае этот момент буду править :)
-*/
 export default class Card {
-  constructor(data, templateSelector) {
+  constructor({ data, handleCardClick }, templateSelector) {
     this._name = data.name;
     this._link = data.link;
     this._alt = data.name;
+    this._handleCardClick = handleCardClick;
     this._templateSelector = templateSelector;
   }
 
@@ -39,8 +33,8 @@ export default class Card {
     this._element.querySelector('.element__like-button').addEventListener('click', (evt) => {
       this._likeCard(evt);
     });
-    this._element.querySelector('.element__image').addEventListener('click', (evt) => {
-      this._openFullscreen(evt);
+    this._element.querySelector('.element__image').addEventListener('click', () => {
+      this._handleCardClick(this._name, this._link)
     });
   }
 
@@ -54,10 +48,10 @@ export default class Card {
     evt.target.classList.toggle('element__like-button_active');
   }
 
-  _openFullscreen = () => {
-    // Я, честно говоря, не совсем понял как это реализовать, но я позднее пообщаюсь с наставником :)
-    openPopup(popupFullscreen);
-    document.querySelector('.popup__fullscreen-image').src = this._link;
-    document.querySelector('.popup__fullscreen-text').textContent = this._name;
-  }
+  // _openFullscreen = () => {
+  //   // Я, честно говоря, не совсем понял как это реализовать, но я позднее пообщаюсь с наставником :)
+  //   openPopup(popupFullscreen);
+  //   document.querySelector('.popup__fullscreen-image').src = this._link;
+  //   document.querySelector('.popup__fullscreen-text').textContent = this._name;
+  // }
 }
