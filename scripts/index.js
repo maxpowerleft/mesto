@@ -1,4 +1,7 @@
-import { initialCards, config } from './utils.js';
+import {
+  initialCards,
+  config
+} from './utils.js';
 import Section from './Section.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
@@ -33,24 +36,28 @@ profileFormValidation.enableValidation();
 
 // ЭКЗЕМПЛЯРЫ КЛАССА UserInfo
 
-const userInfo = new UserInfo({
-  userName: profileUserName,
-  userDescription: profileUserDescription
-})
+const userInfo = new UserInfo(profileUserName, profileUserDescription);
+
+// МЕТОД КЛАССА UserInfo
+
+userInfo.setUserInfo(profileUserName.textContent, profileUserDescription.textContent);
 
 //  ЭКЗЕМПЛЯР КЛАССА PopupWithImage
 
-const popupImage = new PopupWithImage('.popup_type_fullscreen', '.popup__fullscreen-image', '.popup__fullscreen-text');
+const popupImage = new PopupWithImage(
+  '.popup_type_fullscreen',
+  '.popup__fullscreen-image',
+  '.popup__fullscreen-text');
 
 // ЭКЗЕМПЛЯРЫ КЛАССА PopupWithForm (Profile)
 
 const popupFormProfile = new PopupWithForm({
-  popupSelector: '.popup_type_profile',
-  handleFormSubmit: (data) => {
-    userInfo.setUserInfo(data)
-  },
-},
-'.popup__form')
+    popupSelector: '.popup_type_profile',
+    handleFormSubmit: () => {
+      userInfo.setUserInfo(popupUserName.value, popupUserDescription.value)
+      userInfo.updateUserInfo();
+    },
+  })
 
 // МЕТОДЫ КЛАССА PopupWithForm 
 
@@ -62,12 +69,12 @@ const popupFormElements = new PopupWithForm({
   popupSelector: '.popup_type_elements',
   handleFormSubmit: (item) => {
     const card = new Card({
-      data: item,
-      handleCardClick: () => {
-        popupImage.open(item.name, item.link)
-        popupImage.setEventListeners()
+        data: item,
+        handleCardClick: () => {
+          popupImage.open(item.name, item.link)
+          popupImage.setEventListeners()
+        },
       },
-    },
       '.template-elements');
     const cardElement = card.generateCard();
     cardList.setItem(cardElement);
@@ -81,20 +88,20 @@ popupFormElements.setEventListeners();
 //  ЭКЗЕМПЛЯР КЛАССА Section
 
 const cardList = new Section({
-  items: initialCards,
-  renderer: (item) => {
-    const card = new Card({
-      data: item,
-      handleCardClick: () => {
-        popupImage.open(item.name, item.link)
-        popupImage.setEventListeners()
-      },
+    items: initialCards,
+    renderer: (item) => {
+      const card = new Card({
+          data: item,
+          handleCardClick: () => {
+            popupImage.open(item.name, item.link)
+            popupImage.setEventListeners()
+          },
+        },
+        '.template-elements');
+      const cardElement = card.generateCard();
+      cardList.setItem(cardElement);
     },
-      '.template-elements');
-    const cardElement = card.generateCard();
-    cardList.setItem(cardElement);
   },
-},
   elements
 );
 

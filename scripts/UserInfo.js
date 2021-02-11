@@ -1,18 +1,25 @@
 export default class UserInfo {
-  constructor({userName, userDescription}) {
-    this._userName = userName;
-    this._userDescription = userDescription;
+  constructor(userName, userDescription) {
+    this._userNameElem = userName;
+    this._userDescriptionElem = userDescription;
+    this._userName = '';
+    this._userDescription = '';
   }
 
-  getUserInfo() {
-    const userInfo = {};
-    userInfo.userName = this._userName.textContent;
-    userInfo.userDescription = this._userDescription.textContent;
-    return userInfo;
+  getUserInfo = () => {
+    return {
+      userName: this._userName,
+      userDescription: this._userDescription,
+    };
   }
 
-  setUserInfo(data) {
-    data.userName = this._userName.textContent;
-    data.userDescription = this._userDescription.textContent;
+  updateUserInfo = () => {
+    this._userNameElem.textContent = this._userName;
+    this._userDescriptionElem.textContent = this._userDescription;
+  }
+
+  setUserInfo = (newUserName, newUserDescription) => {
+    this._userName = newUserName;
+    this._userDescription = newUserDescription;
   }
 }
