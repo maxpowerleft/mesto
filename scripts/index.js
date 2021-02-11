@@ -53,8 +53,8 @@ const popupImage = new PopupWithImage(
 
 const popupFormProfile = new PopupWithForm({
     popupSelector: '.popup_type_profile',
-    handleFormSubmit: () => {
-      userInfo.setUserInfo(popupUserName.value, popupUserDescription.value)
+    handleFormSubmit: (data) => {
+      userInfo.setUserInfo(data.name, data.description)
       userInfo.updateUserInfo();
     },
   })
@@ -72,7 +72,7 @@ const popupFormElements = new PopupWithForm({
         data: item,
         handleCardClick: () => {
           popupImage.open(item.name, item.link)
-          popupImage.setEventListeners()
+          // popupImage.setEventListeners()
         },
       },
       '.template-elements');
@@ -94,7 +94,7 @@ const cardList = new Section({
           data: item,
           handleCardClick: () => {
             popupImage.open(item.name, item.link)
-            popupImage.setEventListeners()
+            // popupImage.setEventListeners()
           },
         },
         '.template-elements');
