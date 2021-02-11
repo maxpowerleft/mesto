@@ -1,155 +1,124 @@
-import { initialCards } from './utils.js';
+import {
+  initialCards,
+  config
+} from './utils.js';
+import Section from './Section.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
-
-//  ВСЕ НЕОБХОДИМЫЕ НАСТРОЙКИ ДЛЯ ВАЛИДАЦИИ ФОРМ
-
-const config = {
-  formSelector: '.popup__form',
-  inputList: '.popup__input',
-  buttonElement: '.popup__save-button',
-  inactiveButtonClass: 'popup__save-button_inactive',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active'
-}
+import PopupWithForm from './PopupWithForm.js';
+import PopupWithImage from './PopupWithImage.js';
+import UserInfo from './UserInfo.js';
 
 // ПЕРЕМЕННЫЕ ПОПАПА ПРОФИЛЯ
 
-const popupProfile = document.querySelector('.popup_type_profile');
 const profileUserName = document.querySelector('.profile__user-name');
 const profileUserDescription = document.querySelector('.profile__user-description');
 const popupOpenButtonProfile = document.querySelector('.profile__edit-button');
-const popupCloseButtonProfile = document.querySelector('.popup__close');
 const popupUserName = document.querySelector('.popup__user-name');
 const popupUserDescription = document.querySelector('.popup__user-description');
-const popupFormProfile = document.querySelector('.popup__profile-form');
+const profilePopupForm = document.querySelector('.popup__profile-form');
 
 // ПЕРЕМЕННЫЕ ПОПАПА ЭЛЕМЕНТОВ
 
-const popupElements = document.querySelector('.popup_type_elements');
 const cardData = document.querySelector('.popup__elements-form');
 const popupOpenButtonElement = document.querySelector('.profile__add-button');
-const popupCloseButtonElement = document.querySelector('.popup__close_element');
 const elements = document.querySelector('.elements');
-const cardTitle = cardData.querySelector('.popup__card-name');
-const cardImageSrc = cardData.querySelector('.popup__card-src');
-
-// ПЕРЕМЕННЫЕ FULLSCREEN ПОПАПА
-
-export const popupFullscreen = document.querySelector('.popup_type_fullscreen');
-const fullscreenCloseButton = document.querySelector('.popup__close_fullscreen')
 
 //  ЭКЗЕМПЛЯРЫ КЛАССА FormValidator 
 
 const elementsFormValidation = new FormValidator(config, cardData);
-const profileFormValidation = new FormValidator(config, popupFormProfile);
+const profileFormValidation = new FormValidator(config, profilePopupForm);
 
 // МЕТОДЫ КЛАССА FormValidator
 
 elementsFormValidation.enableValidation();
 profileFormValidation.enableValidation();
 
-//  ОБЩИЕ ФУНКЦИИ ЗАКРЫТИЯ И ОТКРЫТИЯ ПОПАПОВ
+// ЭКЗЕМПЛЯРЫ КЛАССА UserInfo
 
-export const openPopup = function (popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupByEscButton);
-}
+const userInfo = new UserInfo(profileUserName, profileUserDescription);
 
-const closePopup = function (popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupByEscButton);
-}
+// МЕТОД КЛАССА UserInfo
 
-//  ФУНКЦИИ ГРУППЫ ELEMENTS
+userInfo.setUserInfo(profileUserName.textContent, profileUserDescription.textContent);
 
-// Спасибо большое за советы с созданием экземпляра класса, но я решил, что лучше я сам дойду до этого и пойму зачем :)
-initialCards.forEach(item => {
-  const card = new Card(item, '.template-elements');
-  const cardElement = card.generateCard();
-  placeTheCard(cardElement);
-});
+//  ЭКЗЕМПЛЯР КЛАССА PopupWithImage
 
-function placeTheCard(element) {
-  elements.prepend(element);
-}
+const popupImage = new PopupWithImage(
+  '.popup_type_fullscreen',
+  '.popup__fullscreen-image',
+  '.popup__fullscreen-text');
 
-function handleOpenAddCardPopup() {
-  cardData.reset();
-  elementsFormValidation.cleanInputErrorValidation();
-  openPopup(popupElements);
-}
+// ЭКЗЕМПЛЯРЫ КЛАССА PopupWithForm (Profile)
 
-function editElementsInfo(event) {
-  event.preventDefault();
-  const card = new Card({
-    name: cardTitle.value,
-    link: cardImageSrc.value,
-  },'.template-elements');
-  const cardElement = card.generateCard();
-  placeTheCard(cardElement);
-  closePopup(popupElements);
-}
+const popupFormProfile = new PopupWithForm({
+    popupSelector: '.popup_type_profile',
+    handleFormSubmit: (data) => {
+      userInfo.setUserInfo(data.name, data.description)
+      userInfo.updateUserInfo();
+    },
+  })
 
-const makeElementsPopupOverlay = function (event) {
-  if (event.target === event.currentTarget) {
-    closePopup(popupElements);
-  };
-}
+// МЕТОДЫ КЛАССА PopupWithForm 
 
-// ФУНКЦИИ ГРУППЫ FULLSCREEN
+popupFormProfile.setEventListeners();
 
-const makeFullScreenPopupOverlay = function (event) {
-  if (event.target === event.currentTarget) {
-    closePopup(popupFullscreen);
-  };
-}
+// ЭКЗЕМПЛЯРЫ КЛАССА PopupWithForm (Elements)
 
-// ФУНКЦИИ ГРУППЫ PROFILE
-
-function handleOpenProfilePopup() {
-  openPopup(popupProfile);
-  popupUserName.value = profileUserName.textContent;
-  popupUserDescription.value = profileUserDescription.textContent;
-  profileFormValidation.cleanInputErrorValidation();
-}
-
-
-function editProfileInfo(event) {
-  profileUserName.textContent = popupUserName.value;
-  profileUserDescription.textContent = popupUserDescription.value;
-  closePopup(popupProfile);
-  event.preventDefault();
-}
-
-const makeProfilePopupOverlay = function (event) {
-  if (event.target === event.currentTarget) {
-    closePopup(popupProfile);
-  };
-}
-
-//  ВЫХОД ИЗ ПОПАПА ПО НАЖАТИЮ НА ESC
-
-function closePopupByEscButton(evt) {
-  const popupOpened = document.querySelector('.popup_opened');
-  if (evt.key === 'Escape') {
-    closePopup(popupOpened);
+const popupFormElements = new PopupWithForm({
+  popupSelector: '.popup_type_elements',
+  handleFormSubmit: (item) => {
+    const card = new Card({
+        data: item,
+        handleCardClick: () => {
+          popupImage.open(item.name, item.link)
+          // popupImage.setEventListeners()
+        },
+      },
+      '.template-elements');
+    const cardElement = card.generateCard();
+    cardList.setItem(cardElement);
   }
-  return;
-}
+})
 
-// ОСНОВНЫЕ СЛУШАТЕЛИ
+// МЕТОДЫ КЛАССА PopupWithForm 
 
-popupOpenButtonProfile.addEventListener('click', handleOpenProfilePopup);
-popupCloseButtonProfile.addEventListener('click', () => closePopup(popupProfile));
-popupOpenButtonElement.addEventListener('click', handleOpenAddCardPopup);
-popupCloseButtonElement.addEventListener('click', () => closePopup(popupElements));
-fullscreenCloseButton.addEventListener('click', () => closePopup(popupFullscreen));
+popupFormElements.setEventListeners();
 
-popupProfile.addEventListener('click', makeProfilePopupOverlay);
-popupElements.addEventListener('click', makeElementsPopupOverlay);
-popupFullscreen.addEventListener('click', makeFullScreenPopupOverlay);
+//  ЭКЗЕМПЛЯР КЛАССА Section
 
+const cardList = new Section({
+    items: initialCards,
+    renderer: (item) => {
+      const card = new Card({
+          data: item,
+          handleCardClick: () => {
+            popupImage.open(item.name, item.link)
+            // popupImage.setEventListeners()
+          },
+        },
+        '.template-elements');
+      const cardElement = card.generateCard();
+      cardList.setItem(cardElement);
+    },
+  },
+  elements
+);
 
-popupFormProfile.addEventListener('submit', editProfileInfo);
-cardData.addEventListener('submit', editElementsInfo);
+//  МЕТОД КЛАССА Section
+
+cardList.renderItems();
+
+// СЛУШАТЕЛИ
+
+popupOpenButtonProfile.addEventListener('click', () => {
+  popupUserName.value = userInfo.getUserInfo().userName;
+  popupUserDescription.value = userInfo.getUserInfo().userDescription;
+  popupFormProfile.open();
+  profileFormValidation.cleanInputErrorValidation();
+})
+
+popupOpenButtonElement.addEventListener('click', () => {
+  popupFormElements.open();
+  elementsFormValidation.cleanInputErrorValidation();
+})
