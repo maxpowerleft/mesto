@@ -1,28 +1,28 @@
+import './index.css';
+
 import {
   initialCards,
-  config
-} from './utils.js';
-import Section from './Section.js';
-import Card from './Card.js';
-import FormValidator from './FormValidator.js';
-import PopupWithForm from './PopupWithForm.js';
-import PopupWithImage from './PopupWithImage.js';
-import UserInfo from './UserInfo.js';
+  config,
+} from '../utils/utils.js';
 
-// ПЕРЕМЕННЫЕ ПОПАПА ПРОФИЛЯ
+import {
+  profileUserName,
+  profileUserDescription,
+  popupOpenButtonProfile,
+  popupUserName,
+  popupUserDescription,
+  profilePopupForm,
+  cardData,
+  popupOpenButtonElement,
+  elements
+} from '../utils/constants.js';
 
-const profileUserName = document.querySelector('.profile__user-name');
-const profileUserDescription = document.querySelector('.profile__user-description');
-const popupOpenButtonProfile = document.querySelector('.profile__edit-button');
-const popupUserName = document.querySelector('.popup__user-name');
-const popupUserDescription = document.querySelector('.popup__user-description');
-const profilePopupForm = document.querySelector('.popup__profile-form');
-
-// ПЕРЕМЕННЫЕ ПОПАПА ЭЛЕМЕНТОВ
-
-const cardData = document.querySelector('.popup__elements-form');
-const popupOpenButtonElement = document.querySelector('.profile__add-button');
-const elements = document.querySelector('.elements');
+import Section from '../components/Section.js';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import UserInfo from '../components/UserInfo.js';
 
 //  ЭКЗЕМПЛЯРЫ КЛАССА FormValidator 
 
@@ -49,6 +49,10 @@ const popupImage = new PopupWithImage(
   '.popup__fullscreen-image',
   '.popup__fullscreen-text');
 
+// МЕТОДЫ КЛАССА PopupWithImage
+
+popupImage.setEventListeners()
+  
 // ЭКЗЕМПЛЯРЫ КЛАССА PopupWithForm (Profile)
 
 const popupFormProfile = new PopupWithForm({
@@ -72,7 +76,6 @@ const popupFormElements = new PopupWithForm({
         data: item,
         handleCardClick: () => {
           popupImage.open(item.name, item.link)
-          // popupImage.setEventListeners()
         },
       },
       '.template-elements');
@@ -94,7 +97,6 @@ const cardList = new Section({
           data: item,
           handleCardClick: () => {
             popupImage.open(item.name, item.link)
-            // popupImage.setEventListeners()
           },
         },
         '.template-elements');
