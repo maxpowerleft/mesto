@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="./pages/index.css">
+  <!-- <link rel="stylesheet" href="./pages/index.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto</title>
   <meta name="description"
@@ -15,21 +15,21 @@
 <body>
   <div class="page">
     <header class="header">
-      <img src="./images/header-logo.svg" alt="Логотип сервиса 'Место'" class="header__logo">
+      <img src="<%=require('./images/header-logo.svg')%>" alt="Логотип сервиса 'Место'" class="header__logo">
     </header>
 
     <main class="content">
       <section class="profile">
-        <img src="./images/Avatar.jpg" alt="Здесь находится ваш аватар" class="profile__avatar">
+        <img src="<%=require('./images/Avatar.jpg')%>" alt="Здесь находится ваш аватар" class="profile__avatar">
         <div class="profile__user-info">
           <p class="profile__user-name">Жак-Ив Кусто</p>
           <button class="profile__edit-button">
-            <img src="./images/edit-image.svg" alt="Кнопка изменения профиля" class="profile__edit-image">
+            <img src="<%=require('./images/edit-image.svg')%>" alt="Кнопка изменения профиля" class="profile__edit-image">
           </button>
           <p class="profile__user-description">Исследователь океана</p>
         </div>
         <button class="profile__add-button">
-          <img src="./images/add-image.svg" alt="Кнопка добавления новых записей" class="profile__add-image">
+          <img src="<%=require('./images/add-image.svg')%>" alt="Кнопка добавления новых записей" class="profile__add-image">
         </button>
       </section>
 
@@ -44,12 +44,12 @@
 
   <section class="popup popup_type_profile">
     <form action="#" class="popup__form popup__profile-form" novalidate>
-      <img src="./images/popup__close.svg" alt="Кнопка закрытия модального окна" class="popup__close">
+      <img src="<%=require('./images/popup__close.svg')%>" alt="Кнопка закрытия модального окна" class="popup__close">
       <div class="popup__content">
         <h3 class="popup__title">Редактировать профиль</h3>
-        <input id="user-name-input" type="text" class="popup__input popup__text popup__user-name" name="user-name" placeholder="Имя" required minlength="2" maxlength="40">
+        <input id="user-name-input" type="text" class="popup__input popup__text popup__user-name" name="name" placeholder="Имя" required minlength="2" maxlength="40">
         <span id="user-name-input-error" class="popup__input-error"></span>
-        <input id="user-description-input" type="text" class="popup__input popup__text popup__user-description" name="user-description"
+        <input id="user-description-input" type="text" class="popup__input popup__text popup__user-description" name="description"
           placeholder="Описание" required minlength="2" maxlength="200"> 
         <span id="user-description-input-error" class="popup__input-error"></span>
         <button type="submit" class="popup__save-button">Сохранить</button>
@@ -59,13 +59,13 @@
 
   <section class="popup popup_type_elements">
     <form action="#" class="popup__form popup__elements-form" novalidate>
-      <img src="./images/popup__close.svg" alt="Кнопка закрытия модального окна"
+      <img src="<%=require('./images/popup__close.svg')%>" alt="Кнопка закрытия модального окна"
         class="popup__close popup__close_element">
       <div class="popup__content">
         <h3 class="popup__title">Новое место</h3>
-        <input id="card-name-input" type="text" class="popup__input popup__text popup__card-name" name="card-name" placeholder="Название" required minlength="1" maxlength="30">
+        <input id="card-name-input" type="text" class="popup__input popup__text popup__card-name" name="name" placeholder="Название" required minlength="1" maxlength="30">
         <span id="card-name-input-error" class="popup__input-error"></span>
-        <input id="card-src-input" type="url" class="popup__input popup__text popup__card-src" name="card-image-link"
+        <input id="card-src-input" type="url" class="popup__input popup__text popup__card-src" name="link"
           placeholder="Ссылка на фото/картинку" required>
         <span id="card-src-input-error" class="popup__input-error"></span>
         <button type="submit" class="popup__save-button popup__save-button_element">Сохранить</button>
@@ -75,7 +75,7 @@
 
   <section class="popup popup_type_fullscreen">
     <div class="popup__fullscreen-container">
-      <img src="./images/popup__close.svg" alt="Кнопка закрытия модального окна"
+      <img src="<%=require('./images/popup__close.svg')%>" alt="Кнопка закрытия модального окна"
         class="popup__close popup__close_element popup__close_fullscreen">
       <img src="#" alt="Фотография на весь экран" class="popup__fullscreen-image">
       <p class="popup__fullscreen-text"></p>
@@ -87,14 +87,14 @@
     <div class="element">
       <img src="#" alt="Фотография Вашего поста" class="element__image">
       <button class="element__delete-button">
-        <img src="./images/trash.svg" alt="Кнопка удаления карточки" class="element__delete-image">
+        <img src="<%=require('./images/trash.svg')%>" alt="Кнопка удаления карточки" class="element__delete-image">
       </button>
       <h3 class="element__title"></h3>
       <button class="element__like-button"></button>
     </div>
   </template>
 
-  <script type="module" src="./scripts/index.js"></script>
+  <script type="module" src="./index.js"></script>
 </body>
 
 </html>
