@@ -1,11 +1,6 @@
 import './index.css';
 
 import {
-  initialCards,
-  config,
-} from '../utils/utils.js';
-
-import {
   profileUserName,
   profileUserDescription,
   popupOpenButtonProfile,
@@ -14,7 +9,9 @@ import {
   profilePopupForm,
   cardData,
   popupOpenButtonElement,
-  elements
+  elements,
+  initialCards,
+  config
 } from '../utils/constants.js';
 
 import Section from '../components/Section.js';
@@ -36,11 +33,10 @@ profileFormValidation.enableValidation();
 
 // ЭКЗЕМПЛЯРЫ КЛАССА UserInfo
 
-const userInfo = new UserInfo(profileUserName, profileUserDescription);
-
-// МЕТОД КЛАССА UserInfo
-
-userInfo.setUserInfo(profileUserName.textContent, profileUserDescription.textContent);
+const userInfo = new UserInfo({
+  userName: profileUserName,
+  userDescription: profileUserDescription
+});
 
 //  ЭКЗЕМПЛЯР КЛАССА PopupWithImage
 
@@ -58,10 +54,29 @@ popupImage.setEventListeners()
 const popupFormProfile = new PopupWithForm({
     popupSelector: '.popup_type_profile',
     handleFormSubmit: (data) => {
-      userInfo.setUserInfo(data.name, data.description)
-      userInfo.updateUserInfo();
+      userInfo.setUserInfo(data)
     },
   })
+
+// ФУНКЦИЯ ВОЗВРАЩЕНИЯ НОВОЙ КАРТОЧКИ
+
+/*
+P.S - изначально я все пытался сделать в utils.js, 
+но это требует также импорта PopupWithImage и его вызова, 
+что как по мне показалось достаточно странным, ведь там должны храниться лишь функции,
+которые "не относятся к какому-то конкретному классу, не уникальны для определенной страницы".
+*/
+
+const createCard = (item) => {
+  const card = new Card({
+    data: item,
+    handleCardClick: () => {
+      popupImage.open(item.name, item.link)
+    },
+  },
+    '.template-elements');
+  return card.generateCard();
+};
 
 // МЕТОДЫ КЛАССА PopupWithForm 
 
@@ -72,15 +87,7 @@ popupFormProfile.setEventListeners();
 const popupFormElements = new PopupWithForm({
   popupSelector: '.popup_type_elements',
   handleFormSubmit: (item) => {
-    const card = new Card({
-        data: item,
-        handleCardClick: () => {
-          popupImage.open(item.name, item.link)
-        },
-      },
-      '.template-elements');
-    const cardElement = card.generateCard();
-    cardList.setItem(cardElement);
+    cardList.setItem(createCard(item));
   }
 })
 
@@ -93,15 +100,7 @@ popupFormElements.setEventListeners();
 const cardList = new Section({
     items: initialCards,
     renderer: (item) => {
-      const card = new Card({
-          data: item,
-          handleCardClick: () => {
-            popupImage.open(item.name, item.link)
-          },
-        },
-        '.template-elements');
-      const cardElement = card.generateCard();
-      cardList.setItem(cardElement);
+      cardList.setItem(createCard(item));
     },
   },
   elements
