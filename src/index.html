@@ -24,12 +24,14 @@
         <div class="profile__user-info">
           <p class="profile__user-name">Жак-Ив Кусто</p>
           <button class="profile__edit-button">
-            <img src="<%=require('./images/edit-image.svg')%>" alt="Кнопка изменения профиля" class="profile__edit-image">
+            <img src="<%=require('./images/edit-image.svg')%>" alt="Кнопка изменения профиля"
+              class="profile__edit-image">
           </button>
           <p class="profile__user-description">Исследователь океана</p>
         </div>
         <button class="profile__add-button">
-          <img src="<%=require('./images/add-image.svg')%>" alt="Кнопка добавления новых записей" class="profile__add-image">
+          <img src="<%=require('./images/add-image.svg')%>" alt="Кнопка добавления новых записей"
+            class="profile__add-image">
         </button>
       </section>
 
@@ -47,10 +49,11 @@
       <img src="<%=require('./images/popup__close.svg')%>" alt="Кнопка закрытия модального окна" class="popup__close">
       <div class="popup__content">
         <h3 class="popup__title">Редактировать профиль</h3>
-        <input id="user-name-input" type="text" class="popup__input popup__text popup__user-name" name="name" placeholder="Имя" required minlength="2" maxlength="40">
+        <input id="user-name-input" type="text" class="popup__input popup__text popup__user-name" name="name"
+          placeholder="Имя" required minlength="2" maxlength="40">
         <span id="user-name-input-error" class="popup__input-error"></span>
-        <input id="user-description-input" type="text" class="popup__input popup__text popup__user-description" name="description"
-          placeholder="Описание" required minlength="2" maxlength="200"> 
+        <input id="user-description-input" type="text" class="popup__input popup__text popup__user-description"
+          name="description" placeholder="Описание" required minlength="2" maxlength="200">
         <span id="user-description-input-error" class="popup__input-error"></span>
         <button type="submit" class="popup__save-button">Сохранить</button>
       </div>
@@ -63,7 +66,8 @@
         class="popup__close popup__close_element">
       <div class="popup__content">
         <h3 class="popup__title">Новое место</h3>
-        <input id="card-name-input" type="text" class="popup__input popup__text popup__card-name" name="name" placeholder="Название" required minlength="1" maxlength="30">
+        <input id="card-name-input" type="text" class="popup__input popup__text popup__card-name" name="name"
+          placeholder="Название" required minlength="1" maxlength="30">
         <span id="card-name-input-error" class="popup__input-error"></span>
         <input id="card-src-input" type="url" class="popup__input popup__text popup__card-src" name="link"
           placeholder="Ссылка на фото/картинку" required>
@@ -82,6 +86,30 @@
     </div>
   </section>
 
+  <section class="popup popup_type_avatar">
+    <form action="#" class="popup__form popup__avatar-form" novalidate>
+      <img src="<%=require('./images/popup__close.svg')%>" alt="Кнопка закрытия модального окна"
+        class="popup__close popup__close_avatar">
+      <div class="popup__content">
+        <h3 class="popup__title">Обновить аватар</h3>
+        <input id="avatar-src-input" type="url" class="popup__input popup__text popup__avatar-src" name="link"
+          placeholder="Ссылка на Ваш новый аватар" required>
+        <span id="avatar-src-input-error" class="popup__input-error"></span>
+        <button type="submit" class="popup__save-button popup__save-button_avatar">Сохранить</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="popup popup_type_delete">
+    <form action="#" class="popup__form popup__delete-form" novalidate>
+      <img src="<%=require('./images/popup__close.svg')%>" alt="Кнопка закрытия модального окна"
+        class="popup__close popup__close_delete">
+      <div class="popup__content">
+        <h3 class="popup__title">Вы уверены?</h3>
+        <button type="submit" class="popup__save-button popup__save-button_delete">ДА</button>
+      </div>
+    </form>
+  </section>
 
   <template class="template-elements">
     <div class="element">
