@@ -6,6 +6,7 @@ export const popupOpenButtonProfile = document.querySelector('.profile__edit-but
 export const popupUserName = document.querySelector('.popup__user-name');
 export const popupUserDescription = document.querySelector('.popup__user-description');
 export const profilePopupForm = document.querySelector('.popup__profile-form');
+export const profileAvatar = document.querySelector('.profile__avatar')
 
 // ПЕРЕМЕННЫЕ ПОПАПА ЭЛЕМЕНТОВ
 

@@ -9,7 +9,8 @@
   position: absolute;
   top: 18px;
   right: 15px;
-  display: flex;
+  /* display: flex; */
+  display: none;
   align-items: center;
   justify-content: center;
   transition: opacity .2s ease;
