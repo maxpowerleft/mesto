@@ -6,19 +6,17 @@ export default class PopupWithSubmit extends Popup {
     this._formElement = this._popupSelector.querySelector('.popup__form');
   }
 
-  handleDelete(formCase) {
-    this._handleDeleteForm = formCase;
-  }
+  setSubmitAction(submitHandler) {
+    this._handleFormSubmit = submitHandler;
 
-  close() {
-    super.close();
   }
 
   setEventListeners() {
     super.setEventListeners();
-    this._formElement.addEventListener('click', (evt) => {
+    this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      this._handleDeleteForm();
+      this._handleFormSubmit();
+      this.close();
     })
   }
 }

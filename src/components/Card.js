@@ -1,9 +1,14 @@
 export default class Card {
-  constructor({ data, handleCardClick, handleDeleteIconClick, handleLikeClick }, templateSelector) {
+  constructor({ data, handleCardClick, handleDeleteIconClick }, api, templateSelector) {
     this._name = data.name;
     this._link = data.link;
+    this._userID = data.userId;
+    this._api = api;
+    this._likesArray = data.likes.length;
+    this._IDOwner = data.owner._id
+    this._ID = data._id;
+    this.likeID = data.likes;
     this._handleCardClick = handleCardClick;
-    this._handleLikeClick = handleLikeClick;
     this._handleDeleteIconClick = handleDeleteIconClick;
     this._templateSelector = templateSelector;
   }
@@ -12,70 +17,91 @@ export default class Card {
     const cardElement = document
       .querySelector(this._templateSelector)
       .content
+      .children[0]
       .cloneNode(true);
 
     return cardElement;
   }
 
-  generateCard(id) {
+  generateCard() {
     this._element = this._getTemplate();
-    /*Я не знаю насколько правильно я поступлю, если создам приватные свойства здесь, а не в конструкторе класса.
-    Просто иначе придется обращаться к документу, что уже совсем не то, что возвращает getTemplate. Поправьте пожалуйста, если я не прав */
     this._elementImage = this._element.querySelector('.element__image');
     this._elementLike = this._element.querySelector('.element__like-button');
     this._elementLikeActiveState = this._element.querySelector('.element__like-button_active')
     this._elementLikeCount = this._element.querySelector('.element__likes-count');
+    this._elementLikeCount.textContent = this._likesArray;
     this._elementDeleteBtn = this._element.querySelector('.element__delete-button');
-    if (id === '0b0206c9c9bda1b7fa5da028') {
-      this._elementDeleteBtn.classList.add('element__delete-button_active');
-    }
     this._element.querySelector('.element__title').textContent = this._name;
-    
     this._elementImage.src = this._link;
     this._elementImage.alt = this._name;
-    
+
+    this._checkIDOwner();
+    this._checkMyLike(this._checkLikeOwner()); // !!!
+
     this._setEventListeners();
     return this._element;
   }
 
-  getActiveLike() {
-    return this._elementLike;
+  _putActiveLike() {
+    this._elementLike.classList.add('element__like-button_active')
   }
 
-  putActiveLike(userID, likesArray) {
-    likesArray.forEach((item) => {
-      if (item._id == userID) {
-        this._elementLike.classList.add('.element__like-button_active')
-      }
-    })
+  _deleteActiveLike() {
+    this._elementLike.classList.remove('element__like-button_active');
   }
 
-  deleteActiveLike() {
-    this._elementLike.classList.remove('.element__like-button_active');
+  _checkIDOwner() {
+    if (this._IDOwner !== this._userID) {
+      this._elementDeleteBtn.remove();
+    }
   }
 
-  countLikes(likesArray) {
-    this._elementLikeCount.textContent = likesArray.length;
+  _putLikeClick() {
+    this._api.putLike(this._ID)
+      .then((res) => {
+        this._elementLikeCount.textContent = res.likes.length;
+      })
   }
 
-  _deleteCard(evt) {
-    this._element = evt.target.closest('.element');
-    this._element.remove();
+  _deleteLikeClick() {
+    this._api.deleteLike(this._ID)
+      .then((res) => {
+        this._elementLikeCount.textContent = res.likes.length;
+      })
+  }
+
+  _checkLikeOwner() {
+    return Boolean(this.likeID.find((obj => obj._id == this._userID)));
+  }
+
+  _checkMyLike(like) {
+    if (like) {
+      this._putActiveLike();
+    }
+  }
+
+  deleteCard() {
+    this._element.closest('.element').remove();
     this._element = null;
   }
 
   _setEventListeners() {
     this._elementDeleteBtn.addEventListener('click', () => {
-      this._deleteCard(this);
+      this._handleDeleteIconClick(this._ID);
     });
+
     this._elementLike.addEventListener('click', () => {
-      this.putLike();
-    });
+      if (this._elementLike.classList.contains('element__like-button_active')) {
+        this._deleteActiveLike();
+        this._deleteLikeClick();
+      } else {
+        this._putActiveLike();
+        this._putLikeClick();
+      }
+    })
+
     this._elementImage.addEventListener('click', () => {
       this._handleCardClick(this._name, this._link)
-    });
-    this._elementLikeActiveState.addEventListener('click', (e) => {
-      e.target.classList.toggle('element__like-button_active');
     });
   }
 }

@@ -65,6 +65,7 @@ export default class FormValidator {
         this._isValid(inputElement);
         this._toggleButtonState();
       });
+      this._toggleButtonState();
     });
   };
 

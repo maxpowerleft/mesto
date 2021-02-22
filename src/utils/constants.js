@@ -2,17 +2,23 @@
 
 export const profileUserName = '.profile__user-name';
 export const profileUserDescription = '.profile__user-description';
+export const profileUserAvatar = '.profile__avatar';
 export const popupOpenButtonProfile = document.querySelector('.profile__edit-button');
+export const popupOpenButtonAvatarEdit = document.querySelector('.profile__edit-button-avatar')
 export const popupUserName = document.querySelector('.popup__user-name');
 export const popupUserDescription = document.querySelector('.popup__user-description');
 export const profilePopupForm = document.querySelector('.popup__profile-form');
-export const profileAvatar = document.querySelector('.profile__avatar')
+export const profileAvatarForm = document.querySelector('.popup__avatar-form');
 
 // ПЕРЕМЕННЫЕ ПОПАПА ЭЛЕМЕНТОВ
 
 export const cardData = document.querySelector('.popup__elements-form');
 export const popupOpenButtonElement = document.querySelector('.profile__add-button');
 export const elements = document.querySelector('.elements');
+
+// ПЕРЕМЕННЫЕ ПОПАПА УДАЛЕНИЯ
+
+export const popupDeleteCard = document.querySelector('.popup_type_delete');
 
 // МАССИВ КАРТОЧЕК
 

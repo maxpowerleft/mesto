@@ -4,7 +4,7 @@ export default class Api {
     this._headers = options.headers;
   }
 
-  _getResponse() {
+  _getResponse(res) {
     if (res.ok) {
       return res.json();
     }
@@ -27,45 +27,46 @@ export default class Api {
       .then(this._getResponse);
   }
 
-  patchUserData(name, description) {
+  patchUserData(data) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        name,
-        description
+        name: data.name,
+        about: data.about
       })
     })
+    .then(this._getResponse)
   }
 
-  patchUserAvatar(avatar) {
+  patchUserAvatar(data) {
     return fetch(`${this._url}/users/me/avatar`, {
         method: 'PATCH',
         headers: this._headers,
         body: JSON.stringify({
-          avatar
+          avatar: data.link
         })
       })
       .then(this._getResponse);
   }
 
-  postCard(name, link) {
+  postCard(data) {
     return fetch(`${this._url}/cards`, {
         method: 'POST',
         headers: this._headers,
         body: JSON.stringify({
-          name,
-          link
+          name: data.name,
+          link: data.link
         })
       })
       .then(this._getResponse);
   }
 
   putLike(cardID) {
-    return fetch(`${this._url}/likes/${cardID}`, {
-        method: 'PUT',
-        headers: this._headers,
-      })
+    return fetch(`${this._url}/cards/likes/${cardID}`, {
+      method: 'PUT',
+      headers: this._headers,
+    })
       .then(this._getResponse);
   }
 

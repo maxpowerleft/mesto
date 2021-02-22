@@ -21,15 +21,17 @@
     <main class="content">
       <section class="profile">
         <div class="profile__container">
-          <img src="<%=require('./images/Avatar.jpg')%>" alt="Здесь находится ваш аватар" class="profile__avatar">
+          <button class="profile__edit-button-avatar">
+            <img src="<%=require('./images/giphy.gif')%>" alt="Здесь находится ваш аватар" class="profile__avatar">
+          </button>
         </div>
         <div class="profile__user-info">
-          <p class="profile__user-name">Жак-Ив Кусто</p>
+          <p class="profile__user-name">Загрузка...</p>
           <button class="profile__edit-button">
             <img src="<%=require('./images/edit-image.svg')%>" alt="Кнопка изменения профиля"
               class="profile__edit-image">
           </button>
-          <p class="profile__user-description">Исследователь океана</p>
+          <p class="profile__user-description">Загрузка...</p>
         </div>
         <button class="profile__add-button">
           <img src="<%=require('./images/add-image.svg')%>" alt="Кнопка добавления новых записей"
@@ -55,7 +57,7 @@
           placeholder="Имя" required minlength="2" maxlength="40">
         <span id="user-name-input-error" class="popup__input-error"></span>
         <input id="user-description-input" type="text" class="popup__input popup__text popup__user-description"
-          name="description" placeholder="Описание" required minlength="2" maxlength="200">
+          name="about" placeholder="Описание" required minlength="2" maxlength="200">
         <span id="user-description-input-error" class="popup__input-error"></span>
         <button type="submit" class="popup__save-button">Сохранить</button>
       </div>
