@@ -1,25 +1,23 @@
 export default class UserInfo {
-  constructor(userName, userDescription) {
-    this._userNameElem = userName;
-    this._userDescriptionElem = userDescription;
-    this._userName = '';
-    this._userDescription = '';
+  constructor({ userName, userDescription, userAvatar }) {
+    this._userNameElem = document.querySelector(userName);
+    this._userDescriptionElem = document.querySelector(userDescription);
+    this._userAvatarElem = document.querySelector(userAvatar);
   }
 
-  getUserInfo = () => {
+  getUserInfo() {
     return {
-      userName: this._userName,
-      userDescription: this._userDescription,
-    };
+      userName: this._userNameElem.textContent,
+      userDescription: this._userDescriptionElem.textContent
+    }
   }
 
-  updateUserInfo = () => {
-    this._userNameElem.textContent = this._userName;
-    this._userDescriptionElem.textContent = this._userDescription;
+  setUserInfo(data) {
+    this._userNameElem.textContent = data.name;
+    this._userDescriptionElem.textContent = data.about;
   }
 
-  setUserInfo = (newUserName, newUserDescription) => {
-    this._userName = newUserName;
-    this._userDescription = newUserDescription;
+  setUserAvatar(data) {
+    this._userAvatarElem.src = data.avatar;
   }
 }
