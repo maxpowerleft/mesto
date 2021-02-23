@@ -1,5 +1,9 @@
 export default class Card {
-  constructor({ data, handleCardClick, handleDeleteIconClick }, api, templateSelector) {
+  constructor({
+    data,
+    handleCardClick,
+    handleDeleteIconClick
+  }, api, templateSelector) {
     this._name = data.name;
     this._link = data.link;
     this._userID = data.userId;
@@ -61,6 +65,9 @@ export default class Card {
       .then((res) => {
         this._elementLikeCount.textContent = res.likes.length;
       })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   _deleteLikeClick() {
@@ -68,6 +75,9 @@ export default class Card {
       .then((res) => {
         this._elementLikeCount.textContent = res.likes.length;
       })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   _checkLikeOwner() {
