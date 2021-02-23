@@ -26,7 +26,6 @@ import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
 let userId = null;
-let templateCard = null;
 
 // ЭКЗЕМПЛЯР КЛАССА Api
 
