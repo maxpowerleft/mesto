@@ -12,3 +12,8 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 639px) {
+  .profile__edit-button-avatar {
+    margin-left: -10px;
+  }
+}
